@@ -41,7 +41,8 @@ public class BookController {
 			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 			Iterator<String> it = multipartRequest.getFileNames();
 			MultipartFile multipartFile = multipartRequest.getFile(it.next());
-			String fileName = id + ".png";
+			// String fileName = id + ".png";
+			String fileName = id + ".jpg";
 
 			byte[] bytes = multipartFile.getBytes();
 			BufferedOutputStream stream = new BufferedOutputStream(

@@ -30,7 +30,10 @@ public class BookServiceImpl implements BookService {
 
 	public Book findOne(Long id) {
 //		return bookRepository.findOne(id);
-		return bookRepository.getOne(id);
+		// Book book = bookRepository.getOne(id);
+		Book book = bookRepository.chercherLivre(id);
+		String anohter = "test";
+		return book;
 	}
 
 	public Book save(Book book) {
