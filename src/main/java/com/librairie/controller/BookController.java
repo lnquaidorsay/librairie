@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,5 +56,10 @@ public class BookController {
 			e.printStackTrace();
 			return new ResponseEntity("Upload failed!", HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@RequestMapping("/bookList")
+	public List<Book> getBookList() {
+		return bookService.findAll();
 	}
 }
