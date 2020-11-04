@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.librairie.domain.security.Book;
+import com.librairie.domain.security.Response;
 import com.librairie.service.BookService;
 
 @RestController
@@ -35,7 +36,7 @@ public class BookController {
 		return bookService.save(book);
 	}
 
-	@RequestMapping(value = "/add/image", method = RequestMethod.POST)
+	@RequestMapping(value = "/add/image", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity upload(@RequestParam("id") Long id, HttpServletResponse response,
 			HttpServletRequest request) {
 		try {
@@ -52,14 +53,21 @@ public class BookController {
 			stream.write(bytes);
 			stream.close();
 
-			return new ResponseEntity("Upload Success!", HttpStatus.OK);
+			Response respUploadAdd = new Response();
+			respUploadAdd.setName("Upload Success!");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+
+			// return new ResponseEntity("Upload Success!", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity("Upload failed!", HttpStatus.BAD_REQUEST);
+			Response respUploadAdd = new Response();
+			respUploadAdd.setName("Upload failed!");
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+			// return new ResponseEntity("Upload failed!", HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	@RequestMapping(value = "/update/image", method = RequestMethod.POST)
+	@RequestMapping(value = "/update/image", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity updateImagePost(@RequestParam("id") Long id, HttpServletResponse response,
 			HttpServletRequest request) {
 		try {
@@ -77,10 +85,17 @@ public class BookController {
 			stream.write(bytes);
 			stream.close();
 
-			return new ResponseEntity("Upload Success!", HttpStatus.OK);
+			Response respUploadUpdate = new Response();
+			respUploadUpdate.setName("Upload Success!");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+
+			// return new ResponseEntity("Upload Success!", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity("Upload failed!", HttpStatus.BAD_REQUEST);
+			Response respUploadUpdate = new Response();
+			respUploadUpdate.setName("Upload failed!");
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+			// return new ResponseEntity("Upload failed!", HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -92,6 +107,23 @@ public class BookController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Book updateBookPost(@RequestBody Book book) {
 		return bookService.save(book);
+	}
+
+//	@RequestMapping(value = "/remove", method = RequestMethod.POST)
+//	public ResponseEntity remove(@RequestBody String id) {
+//		bookService.removeOne(Long.parseLong(id));
+//
+//		return new ResponseEntity("Remove Success!", HttpStatus.OK);
+//	}
+
+	@RequestMapping(value = "/remove", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity remove(@RequestBody String id) {
+		bookService.removeOne(Long.parseLong(id));
+		Response response = new Response();
+		response.setName("Remove Success!");
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+		// return new ResponseEntity("Remove Success!", HttpStatus.OK);
 	}
 
 	@RequestMapping("/{id}")
